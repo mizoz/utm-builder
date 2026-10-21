@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UTM Builder: free UTM link generator for GA4 + QR codes</title>
+<meta name="description" content="Free UTM builder that shows which GA4 channel your link lands in. Presets, naming checks, bulk CSV, QR codes. No sign-up, runs in your browser.">
+<link rel="canonical" href="https://mizoz.github.io/utm-builder/">
+<meta name="theme-color" content="#f7f8fa" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="UTM Builder: UTM link generator for GA4">
+<meta property="og:description" content="Build UTM links, see which GA4 channel they land in, tag links in bulk and download QR codes. Free, no sign-up.">
+<meta property="og:url" content="https://mizoz.github.io/utm-builder/">
+<meta property="og:image" content="https://mizoz.github.io/utm-builder/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="UTM Builder: UTM link generator for GA4">
+<meta name="twitter:description" content="Build UTM links, see which GA4 channel they land in, tag links in bulk and download QR codes.">
+<meta name="twitter:image" content="https://mizoz.github.io/utm-builder/og.png">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "UTM Builder",
+      "url": "https://mizoz.github.io/utm-builder/",
+      "description": "Free UTM campaign URL builder that shows which GA4 default channel group each link lands in, with presets, naming checks, bulk CSV mode, link history and QR codes.",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript",
+      "isAccessibleForFree": true,
+      "offers": {"@type": "Offer", "price": "0", "priceCurrency": "CAD"},
+      "datePublished": "2026-10-21",
+      "dateModified": "2026-10-21",
+      "author": {"@id": "https://mizoz.github.io/#person"}
+    },
+    {
+      "@type": "Person",
+      "@id": "https://mizoz.github.io/#person",
+      "name": "Ahmed Mahmoud",
+      "url": "https://mizoz.github.io/",
+      "jobTitle": "Founder, FirstShow",
+      "address": {"@type": "PostalAddress", "addressLocality": "Calgary", "addressRegion": "AB", "addressCountry": "CA"},
+      "sameAs": ["https://github.com/mizoz", "https://www.linkedin.com/in/ahmed-m-82ba28169/", "https://firstshow.ca"]
+    },
+    {
+      "@type": "HowTo",
+      "name": "How to build a UTM link for GA4",
+      "step": [
+        {"@type": "HowToStep", "name": "Paste your page URL", "text": "Paste the page you want people to land on, for example https://example.com/pricing."},
+        {"@type": "HowToStep", "name": "Pick a preset or fill the fields", "text": "Choose a channel preset like Newsletter or LinkedIn paid, or type utm_source, utm_medium and utm_campaign yourself."},
+        {"@type": "HowToStep", "name": "Check the GA4 channel", "text": "Look at the GA4 channel badge and fix any warnings so the link lands in the channel you expect."},
+        {"@type": "HowToStep", "name": "Copy, save or download a QR code", "text": "Copy the tagged link, save it to your history, or download a PNG or SVG QR code for print."}
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {"@type": "Question", "name": "What are UTM parameters?", "acceptedAnswer": {"@type": "Answer", "text": "UTM parameters are tags you add to the end of a link, like ?utm_source=newsletter&utm_medium=email&utm_campaign=spring-sale. When someone clicks, analytics tools such as GA4 read them and record where the visit came from."}},
+        {"@type": "Question", "name": "Which UTM parameters does GA4 need?", "acceptedAnswer": {"@type": "Answer", "text": "Google says to always use utm_source, utm_medium and utm_campaign. utm_term, utm_content, utm_id and utm_source_platform are optional. GA4 decides the channel mostly from source and medium."}},
+        {"@type": "Question", "name": "Why is my campaign traffic showing as Unassigned in GA4?", "acceptedAnswer": {"@type": "Answer", "text": "Usually because utm_medium is a value GA4 does not recognise, such as qr, print, partner or newsletter. Use a medium from the GA4 default channel rules (email, social, paid-social, cpc, referral, affiliate, audio and so on) or build a custom channel group."}},
+        {"@type": "Question", "name": "Are UTM parameters case sensitive?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. GA4 reports Facebook, facebook and FACEBOOK as three different sources. Pick lowercase and stick to it."}},
+        {"@type": "Question", "name": "Should I use UTM tags on Google Ads links?", "acceptedAnswer": {"@type": "Answer", "text": "Usually not. Turn on auto-tagging in Google Ads and link it to GA4. Auto-tagging gives more detail than manual tags. Use UTMs for every other platform."}},
+        {"@type": "Question", "name": "What utm_medium should I use for a QR code on a flyer?", "acceptedAnswer": {"@type": "Answer", "text": "There is no print or QR channel in the GA4 default channel group, so any medium like print or qr lands in Unassigned. Keep a consistent value such as print and add a custom channel group in GA4 that maps it to an Offline channel."}},
+        {"@type": "Question", "name": "Should I use UTM tags on internal links?", "acceptedAnswer": {"@type": "Answer", "text": "No. Tagging links between pages on your own site starts a new session with the tag values and overwrites the real source. Only tag links that live somewhere else."}},
+        {"@type": "Question", "name": "Is this UTM builder private?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Everything runs in your browser. Links, history and CSV files never leave your device, and the page has no analytics or cookies."}}
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<a class="skip" href="#builder">Skip to the builder</a>
+<header class="top">
+  <div class="wrap">
+    <h1>UTM Builder <span class="sub">campaign URL builder that tells you which GA4 channel your link lands in</span></h1>
+    <p class="lede">Tag a link, see the GA4 channel before you publish, catch naming mistakes, and grab a QR code. Free, no sign-up. Nothing you type leaves your browser.</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="tabs" role="tablist" aria-label="Mode">
+    <button role="tab" id="tab-single" aria-controls="panel-single" aria-selected="true">Single link</button>
+    <button role="tab" id="tab-bulk" aria-controls="panel-bulk" aria-selected="false" tabindex="-1">Bulk / CSV</button>
+    <button role="tab" id="tab-history" aria-controls="panel-history" aria-selected="false" tabindex="-1">History <span id="hist-count" class="pill">0</span></button>
+  </div>
+
+  <section id="panel-single" role="tabpanel" aria-labelledby="tab-single">
+    <div class="grid">
+      <form id="builder" class="card" autocomplete="off" novalidate>
+        <div class="field">
+          <label for="f-url">Website URL <span class="req">required</span></label>
+          <input id="f-url" name="url" type="url" inputmode="url" placeholder="https://example.com/landing-page" spellcheck="false">
+        </div>
+
+        <fieldset class="presets">
+          <legend>Presets</legend>
+          <div id="preset-list" class="chips"></div>
+        </fieldset>
+
+        <div class="two">
+          <div class="field">
+            <label for="f-source">utm_source <span class="req">required</span></label>
+            <input id="f-source" name="source" list="dl-source" placeholder="newsletter, linkedin, google" spellcheck="false">
+            <small>Where the traffic comes from.</small>
+          </div>
+          <div class="field">
+            <label for="f-medium">utm_medium <span class="req">required</span></label>
+            <input id="f-medium" name="medium" list="dl-medium" placeholder="email, social, cpc" spellcheck="false">
+            <small>The type of channel. This decides the GA4 channel.</small>
+          </div>
+        </div>
+        <div class="field">
+          <label for="f-campaign">utm_campaign <span class="req">required</span></label>
+          <input id="f-campaign" name="campaign" placeholder="spring-sale-2026" spellcheck="false">
+          <small>The campaign or promotion name.</small>
+        </div>
+        <div class="two">
+          <div class="field">
+            <label for="f-term">utm_term <span class="opt">optional</span></label>
+            <input id="f-term" name="term" placeholder="running-shoes" spellcheck="false">
+            <small>Paid keyword or audience.</small>
+          </div>
+          <div class="field">
+            <label for="f-content">utm_content <span class="opt">optional</span></label>
+            <input id="f-content" name="content" placeholder="header-button" spellcheck="false">
+            <small>Which ad, button or link was clicked.</small>
+          </div>
+        </div>
+        <details class="more" id="more">
+          <summary>More GA4 fields (utm_id, utm_source_platform)</summary>
+          <div class="two">
+            <div class="field">
+              <label for="f-id">utm_id <span class="opt">optional</span></label>
+              <input id="f-id" name="id" placeholder="spr26-001" spellcheck="false">
+              <small>Campaign ID. Handy for GA4 cost data import.</small>
+            </div>
+            <div class="field">
+              <label for="f-platform">utm_source_platform <span class="opt">optional</span></label>
+              <input id="f-platform" name="platform" placeholder="Search Ads 360" spellcheck="false">
+              <small>The buying platform behind the traffic.</small>
+            </div>
+          </div>
+        </details>
+
+        <div class="opts">
+          <label class="check"><input type="checkbox" id="o-clean" checked> Fix naming as I type (lowercase, no spaces)</label>
+          <label class="inline" for="o-sep">Separator
+            <select id="o-sep">
+              <option value="-">hyphen -</option>
+              <option value="_">underscore _</option>
+            </select>
+          </label>
+        </div>
+        <div class="row-btns">
+          <button type="button" id="btn-clean" class="ghost">Clean up names now</button>
+          <button type="button" id="btn-reset" class="ghost">Clear form</button>
+        </div>
+        <datalist id="dl-source"></datalist>
+        <datalist id="dl-medium"></datalist>
+      </form>
+
+      <div class="card out" aria-live="polite">
+        <h2 class="h-out">Your link</h2>
+        <div class="channel" id="channel">
+          <span class="ch-label">GA4 channel</span>
+          <strong id="ch-name">Fill in source and medium</strong>
+          <p id="ch-why" class="ch-why"></p>
+        </div>
+        <label for="out-url" class="sr">Tagged URL</label>
+        <textarea id="out-url" readonly rows="4" spellcheck="false" placeholder="Your tagged link shows up here"></textarea>
+        <div class="row-btns">
+          <button type="button" id="btn-copy" class="primary" disabled>Copy link</button>
+          <button type="button" id="btn-save" disabled>Save to history</button>
+          <button type="button" id="btn-share" class="ghost">Copy builder link</button>
+        </div>
+        <ul id="warnings" class="warnings"></ul>
+        <div class="qr" id="qr-box" hidden>
+          <div id="qr-view" class="qr-view" aria-hidden="true"></div>
+          <div class="qr-side">
+            <h3>QR code</h3>
+            <label class="inline" for="qr-size">PNG size
+              <select id="qr-size">
+                <option value="512">512 px</option>
+                <option value="1024" selected>1024 px</option>
+                <option value="2048">2048 px (print)</option>
+              </select>
+            </label>
+            <div class="row-btns">
+              <button type="button" id="btn-png">Download PNG</button>
+              <button type="button" id="btn-svg">Download SVG</button>
+            </div>
+            <p class="hint" id="qr-note">SVG scales to any size, best for print.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="panel-bulk" role="tabpanel" aria-labelledby="tab-bulk" hidden>
+    <div class="card">
+      <h2>Bulk UTM links from a list or CSV</h2>
+      <p>Paste one URL per line to tag them all with the source, medium and campaign from the Single link tab. Or paste a CSV with a header row using any of these columns: <code>url, source, medium, campaign, term, content, id, source_platform</code> (the <code>utm_</code> prefix is fine too). Empty cells fall back to the Single link values.</p>
+      <div class="field">
+        <label for="bulk-in">URLs or CSV</label>
+        <textarea id="bulk-in" rows="8" spellcheck="false" placeholder="url,source,medium,campaign,content
+https://example.com/,linkedin,social,launch-2026,post-1
+https://example.com/pricing,newsletter,email,launch-2026,footer-link"></textarea>
+      </div>
+      <div class="row-btns">
+        <label class="file-btn">Open CSV file<input type="file" id="bulk-file" accept=".csv,text/csv,text/plain"></label>
+        <button type="button" id="bulk-run" class="primary">Build links</button>
+        <button type="button" id="bulk-csv" disabled>Export CSV</button>
+        <button type="button" id="bulk-copy" disabled>Copy all links</button>
+        <button type="button" id="bulk-save" class="ghost" disabled>Save all to history</button>
+      </div>
+      <p id="bulk-status" class="hint" role="status"></p>
+      <div class="table-wrap"><table id="bulk-table" hidden>
+        <thead><tr><th scope="col">#</th><th scope="col">Tagged URL</th><th scope="col">GA4 channel</th><th scope="col">Warnings</th></tr></thead>
+        <tbody></tbody>
+      </table></div>
+    </div>
+  </section>
+
+  <section id="panel-history" role="tabpanel" aria-labelledby="tab-history" hidden>
+    <div class="card">
+      <h2>Link history</h2>
+      <p>Saved in this browser only (localStorage). Clear your site data and it's gone, so export a CSV if it matters.</p>
+      <div class="row-btns">
+        <label class="inline grow" for="hist-filter">Filter
+          <input id="hist-filter" type="search" placeholder="campaign, source...">
+        </label>
+        <button type="button" id="hist-csv" disabled>Export CSV</button>
+        <button type="button" id="hist-clear" class="ghost danger" disabled>Clear history</button>
+      </div>
+      <ul id="hist-list" class="hist"></ul>
+    </div>
+  </section>
+
+  <p class="privacy"><strong>Private by design:</strong> this page runs entirely in your browser. No analytics, no cookies, no server. Your links and history stay on your device.</p>
+
+  <article class="content">
+    <h2>What is a UTM builder?</h2>
+    <p>A UTM builder adds tracking tags to a link so GA4 (or any analytics tool) knows where a visit came from. Google has its own Campaign URL Builder, and it's fine, but it won't tell you that <code>utm_medium=newsletter</code> ends up as <em>Unassigned</em> in GA4. This one checks your values against the GA4 default channel group rules as you type, keeps your naming consistent, does bulk links, and makes a QR code for each link.</p>
+
+    <h2 id="how">How to use this UTM link generator</h2>
+    <ol>
+      <li><strong>Paste your page URL.</strong> Existing query strings and <code>#anchors</code> are kept in the right place.</li>
+      <li><strong>Pick a preset or fill the fields.</strong> Presets set a source and medium that GA4 classifies properly.</li>
+      <li><strong>Check the GA4 channel badge.</strong> It shows which default channel the link lands in and which rule matched. Fix anything in the warnings list.</li>
+      <li><strong>Copy, save or download the QR code.</strong> PNG for screens, SVG for print. Use <em>Copy builder link</em> to send the same setup to a teammate.</li>
+    </ol>
+
+    <h2 id="parameters">UTM parameters explained</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th scope="col">Parameter</th><th scope="col">What it means</th><th scope="col">Example</th><th scope="col">GA4 dimension</th></tr></thead>
+      <tbody>
+        <tr><td><code>utm_source</code></td><td>Who sent the visit: a site, newsletter or platform. Required.</td><td>newsletter, linkedin, google</td><td>Session source</td></tr>
+        <tr><td><code>utm_medium</code></td><td>The type of channel. GA4 uses it (with source) to pick the channel. Required.</td><td>email, social, paid-social, cpc</td><td>Session medium</td></tr>
+        <tr><td><code>utm_campaign</code></td><td>The campaign, promotion or launch. Required.</td><td>spring-sale-2026</td><td>Session campaign</td></tr>
+        <tr><td><code>utm_term</code></td><td>Paid keyword, or audience for social ads.</td><td>running-shoes</td><td>Session manual term</td></tr>
+        <tr><td><code>utm_content</code></td><td>Tells apart links in the same campaign: ad creative, button, placement.</td><td>header-button, video-ad-a</td><td>Session manual ad content</td></tr>
+        <tr><td><code>utm_id</code></td><td>Campaign ID. Lets you join GA4 data with cost data imports.</td><td>spr26-001</td><td>Session campaign ID</td></tr>
+        <tr><td><code>utm_source_platform</code></td><td>The platform that bought or managed the traffic.</td><td>Search Ads 360, Display &amp; Video 360</td><td>Session source platform</td></tr>
+      </tbody>
+    </table></div>
+    <p class="hint">GA4 also accepts <code>utm_creative_format</code> and <code>utm_marketing_tactic</code>, but Google says they aren't reported in GA4 right now, so I left them out.</p>
+
+    <h2 id="channels">GA4 default channel group rules for UTM parameters</h2>
+    <p>GA4 checks these rules top to bottom and the first match wins. Matching ignores case. "Paid pattern" means the medium matches <code>^(.*cp.*|ppc|retargeting|paid.*)$</code>, so <code>cpc</code>, <code>cpm</code>, <code>paid-social</code> and <code>retargeting</code> all count. Source lists (search, social, video, shopping sites) are maintained by Google; this tool knows the common ones.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th scope="col">Channel</th><th scope="col">Rule (manual UTM tags)</th><th scope="col">Example that lands here</th></tr></thead>
+      <tbody>
+        <tr><td>Cross-network</td><td>Campaign name contains <code>cross-network</code></td><td>utm_campaign=cross-network-q4</td></tr>
+        <tr><td>Paid Shopping</td><td>(Shopping site source <em>or</em> campaign name matches the shopping pattern) <em>and</em> medium matches the paid pattern</td><td>utm_source=google&amp;utm_medium=cpc&amp;utm_campaign=shopping-fall</td></tr>
+        <tr><td>Paid Search</td><td>Search site source and paid-pattern medium</td><td>utm_source=bing&amp;utm_medium=cpc</td></tr>
+        <tr><td>Paid Social</td><td>Social site source and paid-pattern medium</td><td>utm_source=linkedin&amp;utm_medium=paid-social</td></tr>
+        <tr><td>Paid Video</td><td>Video site source and paid-pattern medium</td><td>utm_source=youtube&amp;utm_medium=cpv</td></tr>
+        <tr><td>Display</td><td>Medium is display, banner, expandable, interstitial or cpm</td><td>utm_medium=display</td></tr>
+        <tr><td>Paid Other</td><td>Medium matches the paid pattern (any other source)</td><td>utm_source=podcast-ad&amp;utm_medium=paid</td></tr>
+        <tr><td>Organic Shopping</td><td>Shopping site source or campaign name matches the shopping pattern</td><td>utm_source=etsy&amp;utm_medium=referral</td></tr>
+        <tr><td>Organic Social</td><td>Social site source, or medium is social, social-network, social-media, sm, social network or social media</td><td>utm_source=linkedin&amp;utm_medium=social</td></tr>
+        <tr><td>Organic Video</td><td>Video site source, or medium contains video</td><td>utm_source=youtube&amp;utm_medium=video</td></tr>
+        <tr><td>Organic Search</td><td>Search site source, or medium is organic</td><td>utm_medium=organic</td></tr>
+        <tr><td>Email</td><td>Source or medium is email, e-mail, e_mail or e mail</td><td>utm_source=newsletter&amp;utm_medium=email</td></tr>
+        <tr><td>Affiliates</td><td>Medium is affiliate</td><td>utm_medium=affiliate</td></tr>
+        <tr><td>Referral</td><td>Medium is referral, app or link</td><td>utm_source=partner-site&amp;utm_medium=referral</td></tr>
+        <tr><td>Audio</td><td>Medium is audio</td><td>utm_source=my-podcast&amp;utm_medium=audio</td></tr>
+        <tr><td>SMS</td><td>Source or medium is sms</td><td>utm_medium=sms</td></tr>
+        <tr><td>Mobile Push Notifications</td><td>Medium ends with push, or contains mobile or notification, or source is firebase</td><td>utm_medium=web-push</td></tr>
+        <tr><td>Unassigned</td><td>Nothing above matched</td><td>utm_medium=qr, print, partner, newsletter</td></tr>
+      </tbody>
+    </table></div>
+    <p class="hint">The shopping pattern is <code>^(.*(([^a-df-z]|^)shop|shopping).*)$</code>. It means a campaign named <code>shoe-shop</code> or <code>eshop-launch</code> gets pulled into a Shopping channel, while <code>workshop</code> doesn't. Easy to trip over, so the builder warns you.</p>
+
+    <h2 id="naming">UTM naming conventions that keep GA4 clean</h2>
+    <ul>
+      <li><strong>Lowercase everything.</strong> GA4 treats <code>LinkedIn</code> and <code>linkedin</code> as two sources.</li>
+      <li><strong>No spaces.</strong> Use hyphens (or underscores, just pick one). Spaces turn into <code>%20</code> or <code>+</code> and get mangled when people copy links.</li>
+      <li><strong>Keep a short list of mediums.</strong> email, social, paid-social, cpc, display, referral, affiliate, audio, sms. Anything else needs a custom channel group.</li>
+      <li><strong>Source is the who, medium is the how.</strong> <code>utm_source=linkedin&amp;utm_medium=paid-social</code>, not <code>utm_source=paid&amp;utm_medium=linkedin</code>.</li>
+      <li><strong>Put the date or quarter in the campaign.</strong> <code>webinar-2026-11</code> sorts nicely and doesn't collide with next year.</li>
+      <li><strong>Use utm_content to compare creatives.</strong> <code>video-a</code> vs <code>video-b</code>, or <code>header-link</code> vs <code>footer-link</code>.</li>
+      <li><strong>Never tag internal links.</strong> It restarts the session and wipes the real source.</li>
+      <li><strong>Write it down.</strong> Export the history CSV and keep it in a shared drive so the whole team uses the same names.</li>
+    </ul>
+
+    <h2 id="faq">UTM parameters and GA4: FAQ</h2>
+    <h3>What are UTM parameters?</h3>
+    <p>UTM parameters are tags you add to the end of a link, like <code>?utm_source=newsletter&amp;utm_medium=email&amp;utm_campaign=spring-sale</code>. When someone clicks, analytics tools such as GA4 read them and record where the visit came from.</p>
+    <h3>Which UTM parameters does GA4 need?</h3>
+    <p>Google says to always use utm_source, utm_medium and utm_campaign. utm_term, utm_content, utm_id and utm_source_platform are optional. GA4 decides the channel mostly from source and medium.</p>
+    <h3>Why is my campaign traffic showing as Unassigned in GA4?</h3>
+    <p>Usually because utm_medium is a value GA4 does not recognise, such as qr, print, partner or newsletter. Use a medium from the GA4 default channel rules (email, social, paid-social, cpc, referral, affiliate, audio and so on) or build a custom channel group.</p>
+    <h3>Are UTM parameters case sensitive?</h3>
+    <p>Yes. GA4 reports Facebook, facebook and FACEBOOK as three different sources. Pick lowercase and stick to it.</p>
+    <h3>Should I use UTM tags on Google Ads links?</h3>
+    <p>Usually not. Turn on auto-tagging in Google Ads and link it to GA4. Auto-tagging gives more detail than manual tags. Use UTMs for every other platform.</p>
+    <h3>What utm_medium should I use for a QR code on a flyer?</h3>
+    <p>There is no print or QR channel in the GA4 default channel group, so any medium like print or qr lands in Unassigned. Keep a consistent value such as print and add a custom channel group in GA4 that maps it to an Offline channel.</p>
+    <h3>Should I use UTM tags on internal links?</h3>
+    <p>No. Tagging links between pages on your own site starts a new session with the tag values and overwrites the real source. Only tag links that live somewhere else.</p>
+    <h3>Is this UTM builder private?</h3>
+    <p>Yes. Everything runs in your browser. Links, history and CSV files never leave your device, and the page has no analytics or cookies.</p>
+
+    <p class="updated">Last updated October 2026. Channel rules checked against Google's GA4 help pages on 2026-10-21.</p>
+  </article>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <p>Made by <a href="https://mizoz.github.io/">Ahmed Mahmoud in Calgary</a>. Free, open source on <a href="https://github.com/mizoz/utm-builder">GitHub</a>.</p>
+    <nav aria-label="More free tools">
+      <p>More free tools:</p>
+      <ul>
+        <li><a href="https://mizoz.github.io/social-image-sizer/">Social Image Sizer</a></li>
+        <li><a href="https://mizoz.github.io/post-preview/">Post Preview</a></li>
+        <li><a href="https://mizoz.github.io/sponsorship-builder/">Sponsorship Builder</a></li>
+        <li><a href="https://mizoz.github.io/stream-calc/">Stream Calc</a></li>
+      </ul>
+    </nav>
+  </div>
+</footer>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js" integrity="sha512-ZDSPMa/JM1D+7kdg2x3BsruQ6T/JpJo3jWDWkCZsP+5yVyp1KfESqLI+7RqB5k24F7p2cV7i2YHh/890y6P6Sw==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+<script src="app.js" defer></script>
+</body>
+</html>
