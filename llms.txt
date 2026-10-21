@@ -2,7 +2,7 @@
 
 > Free UTM campaign URL builder that shows which GA4 default channel group a link will land in before you publish it. Presets for common channels, naming checks (lowercase, no spaces, consistent spelling), bulk mode for lists and CSV files, link history, and PNG/SVG QR codes. Runs entirely in the browser: no sign-up, no tracking, nothing is uploaded.
 
-URL: https://mizoz.github.io/utm-builder/
+URL: https://lab.zalastack.com/utm-builder/
 
 ## Key facts
 
@@ -30,4 +30,4 @@ Newsletter, LinkedIn organic, LinkedIn paid, Meta ads (with {{campaign.name}} st
 
 ## Author
 
-Ahmed Mahmoud, Calgary, Alberta. Founder of FirstShow (https://firstshow.ca). Builds free web tools for marketers, event and comms teams. https://mizoz.github.io/
+Ahmed Mahmoud, Calgary, Alberta. Founder of FirstShow (https://firstshow.ca). Builds free web tools for marketers, event and comms teams. https://lab.zalastack.com/

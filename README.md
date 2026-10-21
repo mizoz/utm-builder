@@ -1,6 +1,6 @@
 # UTM Builder
 
-**Live:** https://mizoz.github.io/utm-builder/
+**Live:** https://lab.zalastack.com/utm-builder/
 
 A UTM link builder that tells you which GA4 channel your link will land in, before you post it.
 
@@ -51,13 +51,13 @@ Last checked 2026-10-21.
 
 ## More tools I made
 
-- [Social Image Sizer](https://mizoz.github.io/social-image-sizer/)
-- [Post Preview](https://mizoz.github.io/post-preview/)
-- [Sponsorship Builder](https://mizoz.github.io/sponsorship-builder/)
-- [Stream Calc](https://mizoz.github.io/stream-calc/)
+- [Social Image Sizer](https://lab.zalastack.com/social-image-sizer/)
+- [Post Preview](https://lab.zalastack.com/post-preview/)
+- [Sponsorship Builder](https://lab.zalastack.com/sponsorship-builder/)
+- [Stream Calc](https://lab.zalastack.com/stream-calc/)
 
 ## License
 
 MIT. See [LICENSE](LICENSE).
 
-Made by [Ahmed Mahmoud](https://mizoz.github.io/) in Calgary.
+Made by [Ahmed Mahmoud](https://lab.zalastack.com/) in Calgary.
