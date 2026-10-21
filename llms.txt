@@ -1,0 +1,33 @@
+# UTM Builder
+
+> Free UTM campaign URL builder that shows which GA4 default channel group a link will land in before you publish it. Presets for common channels, naming checks (lowercase, no spaces, consistent spelling), bulk mode for lists and CSV files, link history, and PNG/SVG QR codes. Runs entirely in the browser: no sign-up, no tracking, nothing is uploaded.
+
+URL: https://mizoz.github.io/utm-builder/
+
+## Key facts
+
+- GA4 says to always set utm_source, utm_medium and utm_campaign. Optional: utm_term, utm_content, utm_id, utm_source_platform.
+- UTM values are case sensitive in GA4 reports. Use lowercase.
+- GA4 assigns the default channel mostly from source and medium. A medium GA4 does not recognise (qr, print, partner, newsletter) lands in Unassigned.
+- Paid pattern for mediums: ^(.*cp.*|ppc|retargeting|paid.*)$ (cpc, cpm, paid-social, retargeting).
+
+| Channel | Typical manual tags |
+|---|---|
+| Email | utm_medium=email |
+| Organic Social | utm_source=linkedin&utm_medium=social |
+| Paid Social | utm_source=linkedin&utm_medium=paid-social |
+| Paid Search | utm_source=bing&utm_medium=cpc |
+| Display | utm_medium=display (or banner, cpm) |
+| Referral | utm_medium=referral |
+| Affiliates | utm_medium=affiliate |
+| Audio | utm_medium=audio |
+| SMS | utm_medium=sms |
+| Unassigned | anything that matches no rule, e.g. utm_medium=print |
+
+## Presets
+
+Newsletter, LinkedIn organic, LinkedIn paid, Meta ads (with {{campaign.name}} style macros), Google Ads (ValueTrack macros), QR on print, Podcast, Partner / sponsor.
+
+## Author
+
+Ahmed Mahmoud, Calgary, Alberta. Founder of FirstShow (https://firstshow.ca). Builds free web tools for marketers, event and comms teams. https://mizoz.github.io/
